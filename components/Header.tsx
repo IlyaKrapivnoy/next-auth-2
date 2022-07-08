@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const Header = () => {
   const { data, status } = useSession();
@@ -16,7 +16,13 @@ const Header = () => {
           <Nav className="ml-auto">
             <Nav.Link as="div">
               {status === "authenticated" ? (
-                <Button onClick={null}>Logout</Button>
+                <Button
+                  onClick={() =>
+                    signOut({ callbackUrl: "http://localhost:3000" })
+                  }
+                >
+                  Logout
+                </Button>
               ) : (
                 <Button
                   onClick={() => {
