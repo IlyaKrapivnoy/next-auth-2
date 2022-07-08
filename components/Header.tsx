@@ -1,9 +1,11 @@
-import React from 'react'
-import Link from 'next/link'
-import { Button, Container, Nav, Navbar } from 'react-bootstrap'
-import { signIn } from 'next-auth/react'
+import React from "react";
+import Link from "next/link";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import { signIn, useSession } from "next-auth/react";
 
 const Header = () => {
+  const { data, status } = useSession();
+
   return (
     <Navbar bg="light">
       <Container>
@@ -13,15 +15,25 @@ const Header = () => {
         <Navbar.Collapse className="justify-content-end">
           <Nav className="ml-auto">
             <Nav.Link as="div">
-              <Button onClick={() => {
-                  signIn('github', {callbackUrl: 'http://localhost:3000/dashboard'})
-              }}>SignIn</Button>
+              {status === "authenticated" ? (
+                <Button onClick={null}>Logout</Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    signIn("github", {
+                      callbackUrl: "http://localhost:3000/dashboard",
+                    });
+                  }}
+                >
+                  SignIn
+                </Button>
+              )}
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
