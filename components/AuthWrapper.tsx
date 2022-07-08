@@ -1,0 +1,12 @@
+import React from "react";
+import { useSession } from "next-auth/react";
+
+const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
+  const { status } = useSession();
+
+  if (status === "loading") return null;
+
+  return <>{children}</>;
+};
+
+export default AuthWrapper;
