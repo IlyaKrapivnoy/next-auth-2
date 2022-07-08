@@ -1,12 +1,25 @@
-import React from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import React from "react";
+import ProtectedRoute from "./ProtectedRoute";
+
+const authRoutes = ["/dashboard"];
 
 const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
-  const { status } = useSession();
+  const session = useSession();
+  const router = useRouter();
 
-  if (status === "loading") return null;
+  if (session.status === "loading") return null;
 
-  return <>{children}</>;
+  return (
+    <>
+      {authRoutes.includes(router.pathname) ? (
+        <ProtectedRoute>{children}</ProtectedRoute>
+      ) : (
+        children
+      )}
+    </>
+  );
 };
 
 export default AuthWrapper;
