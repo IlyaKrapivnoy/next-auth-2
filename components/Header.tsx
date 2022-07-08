@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Button, Container, Nav, Navbar } from 'react-bootstrap'
+import { signIn } from 'next-auth/react'
 
 const Header = () => {
   return (
@@ -12,7 +13,9 @@ const Header = () => {
         <Navbar.Collapse className="justify-content-end">
           <Nav className="ml-auto">
             <Nav.Link as="div">
-              <Button>SignIn</Button>
+              <Button onClick={() => {
+                  signIn('github', {callbackUrl: 'http://localhost:3000/dashboard'})
+              }}>SignIn</Button>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
